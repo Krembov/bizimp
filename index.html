@@ -18,15 +18,19 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .bbtn button .bi{font-size:24px;line-height:1.2}
 .bbtn button.on{color:var(--primary);background:rgba(108,92,231,0.1)}
 .bbtn button.on .bi{transform:scale(1.15)}
-.bigc{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 0 14px}
-.bigc button{width:160px;height:160px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--primary),#a29bfe);color:#fff;font-size:60px;cursor:pointer;box-shadow:0 12px 40px rgba(108,92,231,0.35);transition:transform .06s;position:relative;touch-action:manipulation}
-.bigc button:active{transform:scale(0.88)}
-.bigc button::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:3px solid rgba(108,92,231,0.2);animation:pl 2s ease-in-out infinite}
-@keyframes pl{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.08);opacity:0}}
-.fly{position:fixed;pointer-events:none;font-weight:800;font-size:20px;z-index:50;animation:fy .8s ease-out forwards}
-@keyframes fy{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(1.3)}}
-.bigc .ct{font-size:28px;font-weight:800;margin-top:10px;color:var(--primary)}
-.bigc .cs{font-size:15px;color:var(--dim)}
+.bigc{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 0 10px}
+.bigc .coinWrap{position:relative;margin-bottom:4px}
+.bigc .coinWrap::before{content:'';position:absolute;top:50%;left:50%;width:220px;height:220px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,0.12) 0%,transparent 70%);animation:cg 3s ease-in-out infinite}
+@keyframes cg{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.15);opacity:.6}}
+.bigc button{width:160px;height:160px;border-radius:50%;border:4px solid rgba(255,255,255,0.3);background:linear-gradient(135deg,#6c5ce7,#a29bfe,#fd79a8);color:#fff;font-size:64px;cursor:pointer;box-shadow:0 8px 32px rgba(108,92,231,0.4),inset 0 -4px 12px rgba(0,0,0,0.1);transition:transform .06s;position:relative;touch-action:manipulation;text-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.bigc button:active{transform:scale(0.85)}
+.bigc .ctWrap{display:flex;align-items:baseline;gap:4px;margin-top:6px}
+.bigc .ct{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.bigc .cs{font-size:15px;color:var(--dim);font-weight:500}
+.fly{position:fixed;pointer-events:none;font-weight:900;font-size:22px;z-index:50;animation:fy .9s ease-out forwards;text-shadow:0 2px 8px rgba(0,0,0,0.1)}
+@keyframes fy{0%{opacity:1;transform:translateY(0) scale(1) translateX(0)}100%{opacity:0;transform:translateY(-100px) scale(1.5) translateX(30px)}}
+.spark{position:fixed;pointer-events:none;z-index:49;animation:sp .6s ease-out forwards}
+@keyframes sp{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(0) translateY(-40px)}}
 .card{background:var(--card);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;box-shadow:var(--shadow);border:1px solid rgba(108,92,231,0.04)}
 .bcard{background:var(--card);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;border-left:5px solid var(--primary)}
 .bcard .bi{font-size:34px}
@@ -104,7 +108,7 @@ function F(n){if(n>=1e12)return(n/1e12).toFixed(1)+'T';if(n>=1e9)return(n/1e9).t
 var g,money=0,tab='click',tmr=null,st=1,clickLv=0,hLv=-1,mode=1,fused={};
 var bus={};for(var i=0;i<B.length;i++){var b=B[i];bus[b.id]={lv:0,eq:[0,0]}}
 function toast(t){var e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},1800)}
-function tick(){var inc=0;for(var i=0;i<B.length;i++){var b=B[i],s=bus[b.id];if(s.lv>0){var bd=b.d*(1+s.lv*0.2);bd*=1+(s.eq[0]>0?0.5:0)+(s.eq[1]>0?0.5:0);if(fused[b.id])bd*=fused[b.id];inc+=bd}}if(hLv>=0){var h=HOUSE[hLv];inc+=h.d}var add=Math.round(inc/60);if(add>0)fly('+'+F(add)+'💰');money+=add;R()}
+function tick(){var inc=0;for(var i=0;i<B.length;i++){var b=B[i],s=bus[b.id];if(s.lv>0){var bd=b.d*(1+s.lv*0.2);bd*=1+(s.eq[0]>0?0.5:0)+(s.eq[1]>0?0.5:0);if(fused[b.id])bd*=fused[b.id];inc+=bd}}if(hLv>=0){var hh=HOUSE[hLv];inc+=hh.d}var add=Math.round(inc/60);if(add>0&&tab==='click'){fly('+'+F(add)+'💰')}money+=add;R()}
 function start(){if(tmr)return;t();}
 function t(){tmr=setTimeout(function(){tick();t()},1000/st)}
 function R(){Rr()}
@@ -122,21 +126,22 @@ function BB(){return'<div class=bbtn>'+[
 function HC(){
   var cl=CLICK_UP[clickLv]||CLICK_UP[CLICK_UP.length-1];
   var nx=CLICK_UP[clickLv+1];
-  var h='<div class=bigc><button onclick="ck()">🖱️</button><div class=ct>+'+F(cl.m)+'💰</div><div class=cs>за клик</div></div>';
-  h+='<div class=card><h3>⚡ Улучшить клик</h3><div class=pb><div class=pf style="width:'+(clickLv/CLICK_UP.length*100)+'%"></div></div>';
-  if(nx)h+='<div style=display:flex;justify-content:space-between;align-items:center;padding:4px 0><span style=font-size:15px>×'+nx.m+': <b>'+F(nx.c)+'💰</b></span><button class="btn btn-p" onclick="buyC()"'+(money<nx.c?' disabled':'')+'>⚡ Улучшить</button></div>';
-  else h+='<div style=color:var(--green);font-weight:600>✅ MAX</div>';
-  h+='</div>';
   var ti=0;for(var i=0;i<B.length;i++){var b=B[i],s=bus[b.id];if(s.lv>0){var bd=b.d*(1+s.lv*0.2);bd*=1+(s.eq[0]>0?0.5:0)+(s.eq[1]>0?0.5:0);if(fused[b.id])bd*=fused[b.id];ti+=bd}}
   if(hLv>=0){var hh=HOUSE[hLv];ti+=hh.d}
-  h+='<div class=card><div style=display:flex;justify-content:space-around;text-align:center><div><div style=font-size:24px;font-weight:800;color:var(--green)>+'+F(ti)+'💰</div><div class=fs>в минуту</div></div><div><div style=font-size:20px;font-weight:600;color:var(--dim)>+'+F(Math.round(ti/60))+'💰</div><div class=fs>в секунду</div></div></div></div>';
+  var h='<div class=bigc><div class=coinWrap><button onclick="ck()">💰</button></div><div class=ctWrap><span class=ct>+'+F(cl.m)+'</span><span class=cs>💰 за клик</span></div></div>';
+  h+='<div class=card style="background:linear-gradient(135deg,var(--card),rgba(108,92,231,0.03))"><div style=display:flex;justify-content:space-around;text-align:center><div><div style=font-size:18px;font-weight:700;color:var(--green)>+'+F(ti)+'💰</div><div class=fs>в минуту</div></div><div><div style=font-size:16px;font-weight:600;color:var(--dim)>+'+F(Math.round(ti/60))+'💰</div><div class=fs>в секунду</div></div><div><div style=font-size:16px;font-weight:600;color:var(--pink)>'+F(cl.m)+'💰</div><div class=fs>за клик</div></div></div></div>';
+  h+='<div class=card><div style=display:flex;justify-content:space-between;align-items:center;margin-bottom:4px><h3 style=margin:0>⚡ Усиление клика</h3><span style=font-size:13px;color:var(--dim)>×'+cl.m+'</span></div><div class=pb><div class=pf style="width:'+(clickLv/(CLICK_UP.length-1)*100)+'%"></div></div>';
+  if(nx)h+='<div style=display:flex;justify-content:space-between;align-items:center><span style=font-size:14px>×'+nx.m+' — <b>'+F(nx.c)+'💰</b></span><button class="btn btn-p" onclick="buyC()"'+(money<nx.c?' disabled':'')+'>⬆ Улучшить</button></div>';
+  else h+='<div style=text-align:center;color:var(--green);font-weight:700;font-size:15px>✅ МАКСИМУМ!</div>';
+  h+='</div>';
   var rk=-1;for(var i=FORBES.length-1;i>=0;i--){if(money>=FORBES[i].m){rk=i;break}}
   if(rk>=0&&rk<FORBES.length-1){var cur=FORBES[rk].m,nxt=FORBES[rk+1].m,pct=Math.min(100,(money-cur)/(nxt-cur)*100);
-  h+='<div class=card><h3>📊 Forbes: '+FORBES[rk].n+'</h3><div style=display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px><span>'+F(cur)+'💰</span><span class=fs>'+Math.floor(pct)+'%</span><span>'+F(nxt)+'💰</span></div><div class=pb><div class=pf style=width:'+pct+'%></div></div><div style=text-align:center;font-size:13px;color:var(--dim)>До ранга <b>'+FORBES[rk+1].n+'</b>: '+F(nxt-money)+'💰</div></div>'}
+  h+='<div class=card><h3>📊 Forbes</h3><div style=display:flex;justify-content:space-between;font-size:13px;margin-bottom:2px><span style=font-weight:600>'+FORBES[rk].n+'</span><span style=color:var(--dim);font-size:12px>➜ '+FORBES[rk+1].n+'</span></div><div class=pb><div class=pf style=width:'+pct+'%></div></div><div style=text-align:center;font-size:12px;color:var(--dim)>Ещё <b>'+F(nxt-money)+'💰</b> до следующего ранга</div></div>'}
   return h
 }
-function ck(){var am=CLICK_UP[clickLv].m;money+=am;fly('+'+F(am)+'💰');R()}
-function fly(t){var e=document.createElement('div');e.className='fly';var b=document.querySelector('.bigc button');var x=window.innerWidth/2,y=60;if(b){var r=b.getBoundingClientRect();x=r.left+r.width/2;y=r.top-10}e.textContent=t;e.style.left=(x-40+Math.random()*80)+'px';e.style.top=y+'px';e.style.color=['#6c5ce7','#fd79a8','#00b894','#fdcb6e'][Math.floor(Math.random()*4)];document.body.appendChild(e);setTimeout(function(){e.remove()},900)}
+function ck(){var am=CLICK_UP[clickLv].m;money+=am;fly('+'+F(am)+'💰');sparks();R()}
+function fly(t){var e=document.createElement('div');e.className='fly';var b=document.querySelector('.bigc button');var x=window.innerWidth/2,y=60;if(b){var r=b.getBoundingClientRect();x=r.left+r.width/2;y=r.top-10}e.textContent=t;e.style.left=(x-60+Math.random()*40)+'px';e.style.top=(y-10+Math.random()*20)+'px';e.style.color=['#6c5ce7','#fd79a8','#00b894','#fdcb6e','#fdcb6e'][Math.floor(Math.random()*5)];document.body.appendChild(e);setTimeout(function(){e.remove()},1000)}
+function sparks(){var b=document.querySelector('.bigc button');if(!b)return;var r=b.getBoundingClientRect();var cx=r.left+r.width/2,cy=r.top+r.height/2;for(var i=0;i<6;i++){var e=document.createElement('div');e.className='spark';var a=Math.random()*6.28;var d=30+Math.random()*60;e.textContent=['✦','✧','⬩','💎','⭐','✨'][Math.floor(Math.random()*6)];e.style.left=(cx+Math.cos(a)*d-10)+'px';e.style.top=(cy+Math.sin(a)*d-10)+'px';e.style.fontSize=(12+Math.random()*14)+'px';e.style.color=['#6c5ce7','#a29bfe','#fd79a8','#fdcb6e','#fff'][Math.floor(Math.random()*5)];document.body.appendChild(e);setTimeout(function(){e.remove()},700)}}
 function buyC(){var nx=CLICK_UP[clickLv+1];if(!nx||money<nx.c)return;money-=nx.c;clickLv++;toast('⚡ Клик ×'+nx.m+'!');R()}
 
 function HB(){
