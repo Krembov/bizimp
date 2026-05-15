@@ -125,7 +125,7 @@ function Rr(){
     (tab==='ov'?
     '<div class=c><h3>📈 Показатели</h3><div class=r><span class=l>Команда</span><span class=v>'+g.em.length+'/'+g.mxE+'</span></div><div class=r><span class=l>Продукты</span><span class=v>'+g.pr.length+'/'+g.mxP+'</span></div><div class=r><span class=l>Репутация</span><span class=v>'+g.rp+'/100</span></div><div class=pb><div class=pf style="width:'+g.rp+'%;background:var(--gold)"></div></div><div class=r><span class=l>Заработано</span><span class=v>'+F(g.tp)+'</span></div><div class=r><span class=l>Цель</span><span class=v>'+F(g.m)+' / 1M</span></div><div class=pb><div class=pf style="width:'+Math.min(100,g.m/10000)+'%;background:var(--accent)"></div></div>'+
     (g.ib>0||g.cr>0||g.qb>0||g.pr>0||g.rd>0?'<div style="margin-top:5px;font-size:11px;color:var(--dim)">'+
-    (g.ib>0?'Дох+'+(g.ib*100)+'% ':'')(g.cr>0?'Расх-'+(g.cr*100)+'% ':'')(g.qb>0?'Кач+'+(g.qb*100)+'% ':'')(g.pr>0?'Пасс+'+(g.pr*100)+'% ':'')(g.rd>0?'Реп/д +'+g.rd:'')+'</div>':'')+'</div>'+
+(g.ib>0?'Дох+'+(g.ib*100)+'% ':'')+(g.cr>0?'Расх-'+(g.cr*100)+'% ':'')+(g.qb>0?'Кач+'+(g.qb*100)+'% ':'')+(g.pr>0?'Пасс+'+(g.pr*100)+'% ':'')+(g.rd>0?'Реп/д +'+g.rd:'')+'</div>':'')+'</div>'+
     (g.em.length===0?'<div class=c><h3>💡 Первые шаги</h3><div style="font-size:13px;color:var(--dim);line-height:1.6">👉 Вкладка <b>Команда</b> — найми сотрудника<br>👉 Вкладка <b>Продукты</b> — создай продукт<br>👉 Покупай улучшения для роста!</div></div>':'')
     :'')+
     (tab==='em'?
