@@ -100,9 +100,10 @@ function tTh(){st.thm=st.thm==='dark'?'light':'dark';document.body.className='th
 function Rr(){
   let a=document.getElementById('app');
   if(!g||g.ph==='start'){
-    a.innerHTML='<div class=ss><div style="font-size:52px">🏢</div><h1>Бизнес Империя</h1><p>Начни с нуля, найми команду, разработай продукты и заработай 1,000,000💰</p><div class=bg2>'+
-      Object.entries(B).map(([k,v])=>'<div class=bc onclick="IG(\''+k+'\')"><div class=ic>'+v.i+'</div><div class=nm>'+v.n+'</div><div class=ds>'+v.d+'<br>💰'+F(v.s)+'</div></div>').join('')+
-      '</div><div style="color:var(--dim);font-size:12px">Время идёт автоматически. Управляй скоростью!</div></div>';return
+    a.innerHTML='<div class=ss><div style="font-size:52px">🏢</div><h1>Бизнес Империя</h1><p>Начни с нуля, найми команду, разработай продукты и заработай 1,000,000💰</p><div class=bg2 id=bc>'+
+      Object.entries(B).map(([k,v])=>'<div class=bc data-k="'+k+'"><div class=ic>'+v.i+'</div><div class=nm>'+v.n+'</div><div class=ds>'+v.d+'<br>💰'+F(v.s)+'</div></div>').join('')+
+      '</div><div style="color:var(--dim);font-size:12px">Время идёт автоматически. Управляй скоростью!</div></div>'
+    a.querySelector('#bc').onclick=e=>{let c=e.target.closest('.bc');if(c)IG(c.dataset.k)};return
   }
   if(g.ph==='win'){
     a.innerHTML='<div class=ss><div style="font-size:68px">🏆</div><h1>ИМПЕРИЯ ПОСТРОЕНА!</h1><p>1,000,000💰 заработано!</p><div class=c style="text-align:left;width:100%;max-width:340px">'+
