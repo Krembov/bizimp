@@ -2,278 +2,200 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Бизнес Империя</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>Бизнес Кликер</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0d0d18;--surface:#16162a;--border:rgba(255,255,255,0.06);--text:#dfe6e9;--dim:#636e72;--accent:#6c5ce7;--green:#00b894;--red:#e17055;--gold:#fdcb6e;--r:10px}
-.theme-light{--bg:#f0f2f5;--surface:#fff;--border:rgba(0,0,0,0.08);--text:#2d3436;--dim:#b2bec3}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,sans-serif;min-height:100vh;overflow-x:hidden}
-#app{max-width:760px;margin:0 auto;padding:10px}
-.hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-.hdr .t{font-size:18px;font-weight:700;background:linear-gradient(135deg,var(--accent),#a29bfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hdr .m{font-size:17px;font-weight:700;color:var(--gold);margin-left:auto}
-.hdr-r{display:flex;gap:4px}
-.ibtn{width:32px;height:32px;border-radius:7px;border:none;background:var(--surface);color:var(--dim);cursor:pointer;font-size:13px}
-.ibtn.on{background:var(--accent);color:#fff}
-.tabs{display:flex;gap:3px;margin-bottom:6px;overflow-x:auto}
-.tab{padding:6px 10px;border-radius:7px;border:none;background:var(--surface);color:var(--dim);cursor:pointer;font-size:12px;white-space:nowrap}
-.tab.on{background:var(--accent);color:#fff}
-.tab .b{background:var(--red);color:#fff;border-radius:50%;padding:0 5px;font-size:9px;margin-left:3px}
-.c{background:var(--surface);border-radius:var(--r);padding:10px;margin-bottom:6px;border:1px solid var(--border)}
-.c h3{font-size:13px;margin-bottom:4px;color:#a29bfe}
-.r{display:flex;justify-content:space-between;padding:2px 0;font-size:12px}
-.r+.r{border-top:1px solid var(--border)}
-.l{color:var(--dim)}.v{font-weight:600}
-.btn{padding:6px 12px;border-radius:7px;border:none;cursor:pointer;font-size:12px}
-.bp{background:var(--accent);color:#fff}.bg{background:var(--green);color:#fff}.br{background:var(--red);color:#fff}.bo{background:transparent;border:1px solid var(--border);color:var(--text)}
-.sm{padding:4px 8px;font-size:11px}
-.btn:disabled{opacity:.25;cursor:default}
-.pb{height:4px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;margin:2px 0}
-.pf{height:100%;border-radius:3px}
-.ev{padding:6px 10px;border-radius:7px;margin-bottom:4px;font-size:12px;display:flex;align-items:center;gap:6px}
-.ev-g{background:rgba(0,184,148,0.1);border-left:3px solid var(--green)}
-.ev-b{background:rgba(225,112,85,0.1);border-left:3px solid var(--red)}
-.ev-i{background:rgba(108,92,231,0.1);border-left:3px solid var(--accent)}
-.ss{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh;text-align:center;gap:12px}
-.ss h1{font-size:26px;background:linear-gradient(135deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.ss p{color:var(--dim);max-width:360px;line-height:1.5;font-size:13px}
-.gr{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;width:100%;max-width:440px}
-.gc{background:var(--surface);border-radius:var(--r);padding:12px;cursor:pointer;text-align:center;border:2px solid transparent}
-.gc:hover{border-color:var(--accent)}
-.gc .ic{font-size:24px;margin-bottom:2px}.gc .nm{font-weight:600;font-size:13px}.gc .ds{font-size:11px;color:var(--dim)}
-.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px}
-.ic{background:rgba(255,255,255,0.03);border-radius:7px;padding:8px;font-size:12px}
-.ic .nm{font-weight:600;font-size:12px;margin-bottom:2px}.ic .st{color:var(--dim);font-size:11px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:50}
-.mc{background:var(--surface);border-radius:var(--r);padding:16px;max-width:300px;width:90%}
-.mc h2{font-size:14px;margin-bottom:8px}
-.sr{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px}
-.sr+.sr{border-top:1px solid var(--border)}
-.tg{width:40px;height:20px;border-radius:10px;border:none;cursor:pointer;position:relative;background:var(--dim)}
-.tg.on{background:var(--accent)}
-.tg::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff}
-.tg.on::after{left:22px}
-.toast{position:fixed;top:12px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;font-size:12px;z-index:100}
-.to{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:40;display:flex;align-items:center;justify-content:center}
-.tb{background:var(--surface);border-radius:var(--r);padding:20px;max-width:360px;width:90%;text-align:center}
-.tb h2{font-size:16px;margin-bottom:4px}.tb p{font-size:12px;color:var(--dim);line-height:1.5;margin-bottom:6px}
-.tb .st{display:flex;gap:6px;justify-content:center;margin:6px 0}
-.tb .st .dt{width:7px;height:7px;border-radius:50%;background:var(--dim)}
-.tb .st .dt.on{background:var(--accent);width:9px;height:9px}
-@media(max-width:500px){#app{padding:5px}.hdr .t{font-size:15px}.hdr .m{font-size:13px}}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+:root{--bg:#f0eef8;--card:#fff;--text:#2d2b4e;--dim:#8e8ba0;--primary:#6c5ce7;--pink:#fd79a8;--orange:#fdcb6e;--green:#00b894;--red:#e17055;--blue:#74b9ff;--shadow:0 2px 12px rgba(108,92,231,0.1);--r:14px}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',sans-serif;min-height:100vh;overflow:hidden;display:flex;flex-direction:column}
+#app{flex:1;overflow-y:auto;padding:10px 12px 70px;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 0 6px}
+.hdr .t{font-size:17px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr .m{font-size:18px;font-weight:800;color:var(--text)}
+.hdr .m small{font-weight:400;color:var(--dim);font-size:12px}
+.bbtn{display:flex;justify-content:space-around;background:var(--card);border-top:1px solid rgba(108,92,231,0.08);padding:4px 0 env(safe-area-inset-bottom,4px);position:fixed;bottom:0;left:0;right:0;z-index:30;box-shadow:0 -2px 12px rgba(108,92,231,0.06)}
+.bbtn button{background:none;border:none;color:var(--dim);font-size:10px;font-weight:600;cursor:pointer;padding:6px 10px;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:2px;transition:.15s}
+.bbtn button .bi{font-size:20px;line-height:1.2}
+.bbtn button.on{color:var(--primary);background:rgba(108,92,231,0.08)}
+.bbtn button.on .bi{transform:scale(1.1)}
+.bigc{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 0 10px}
+.bigc button{width:130px;height:130px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--primary),#a29bfe);color:#fff;font-size:48px;cursor:pointer;box-shadow:0 8px 30px rgba(108,92,231,0.3);transition:transform .05s;position:relative}
+.bigc button:active{transform:scale(0.92)}
+.bigc .ct{font-size:22px;font-weight:800;margin-top:8px;color:var(--primary)}
+.bigc .cs{font-size:13px;color:var(--dim)}
+.card{background:var(--card);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;box-shadow:var(--shadow);border:1px solid rgba(108,92,231,0.04)}
+.bcard{background:var(--card);border-radius:var(--r);padding:12px;margin-bottom:8px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;border-left:4px solid var(--primary)}
+.bcard .bi{font-size:28px}
+.bcard .bd{flex:1}
+.bcard .bn{font-weight:700;font-size:14px}
+.bcard .bl{font-size:11px;color:var(--dim)}
+.bcard .bdv{font-size:12px;color:var(--green);font-weight:600}
+.bcard .br{text-align:right;flex-shrink:0}
+.btn{padding:8px 14px;border-radius:10px;border:none;font-size:12px;font-weight:700;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:4px}
+.btn:active{transform:scale(0.94)}
+.btn-p{background:var(--primary);color:#fff}
+.btn-g{background:var(--green);color:#fff}
+.btn-o{background:var(--orange);color:#2d2b4e}
+.btn-r{background:var(--red);color:#fff}
+.btn-w{background:rgba(108,92,231,0.06);color:var(--dim)}
+.btn-s{padding:5px 10px;font-size:11px}
+.btn:disabled{opacity:.3;cursor:default;transform:none}
+.cb{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.mc{background:var(--card);border-radius:16px;padding:20px;max-width:340px;width:100%;text-align:center}
+.mc h2{font-size:16px;margin-bottom:6px}
+.mc p{font-size:13px;color:var(--dim);line-height:1.5;margin-bottom:12px}
+.mc .mg{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.fb{width:100%}
+.fb .fr{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid rgba(108,92,231,0.06)}
+.fb .fr:last-child{border:none}
+.fb .fr .rn{font-weight:700;color:var(--dim);width:32px}
+.fb .fr.me{background:rgba(108,92,231,0.06);border-radius:8px;padding:6px 8px;margin:0 -8px;font-weight:700;color:var(--primary)}
+.fb .fr.me .rn{color:var(--primary)}
+.setr{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px}
+.setr+.setr{border-top:1px solid rgba(108,92,231,0.06)}
+.pb{height:4px;background:rgba(108,92,231,0.08);border-radius:3px;overflow:hidden;margin:6px 0}
+.pf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--pink));transition:width .3s}
+.toast{position:fixed;top:12px;left:50%;transform:translateX(-50%);background:var(--card);padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:99;box-shadow:0 4px 20px rgba(0,0,0,0.1);border:1px solid rgba(108,92,231,0.1);animation:td .25s}
+@keyframes td{from{opacity:0;transform:translateX(-50%) translateY(-20px)}}
+.hi{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;margin:4px 0}
+.hi button{background:rgba(108,92,231,0.06);border:none;border-radius:8px;padding:5px 8px;font-size:11px;cursor:pointer;color:var(--dim)}
+.hi button.on{background:rgba(108,92,231,0.12);color:var(--primary);font-weight:600}
+.scl{text-align:center;color:var(--dim);font-size:12px;padding:4px 0}
+.fs{font-size:11px;color:var(--dim)}
+h3{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--primary)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--dim);border-radius:4px}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
-var B={t:{n:'IT-Стартап',i:'💻',d:'Разработка',s:5000,r:50,c:120},r:{n:'Ресторан',i:'🍔',d:'Фастфуд',s:8000,r:40,c:80},f:{n:'Завод',i:'🏭',d:'Производство',s:12000,r:35,c:100},e:{n:'Магазин',i:'🛒',d:'Розница',s:6000,r:30,c:60}};
-var E={t:['Антон','Катя','Максим','Ольга','Илья','Арина'],r:['Шеф','Мария','Сергей','Анна','Повар','Админ'],f:['Токарь','Сварщик','Инженер','Кладовщик','Логист','Техник'],e:['Продавец','Кассир','Админ','Консультант','Кладовщик']};
-var S=['execution','creation','charisma','logic'];
-var SN={execution:'Работа',creation:'Идеи',charisma:'Люди',logic:'Анализ'};
-var U=[{id:'o',n:'Офис',c:3000,e:'+2 места',f:function(){g.mxE+=2},i:'🏢',m:1.5},{id:'e',n:'Оборуд',c:4000,e:'+20% кач',f:function(){g.qb+=0.2},i:'🔧',m:1.6},{id:'m',n:'Маркетинг',c:2000,e:'+15% дох',f:function(){g.ib+=0.15},i:'📢',m:1.7},{id:'a',n:'Автоматиз',c:5000,e:'-10% расх',f:function(){g.cr+=0.1},i:'🤖',m:1.8},{id:'p',n:'PR',c:6000,e:'+1 реп/д',f:function(){g.rd+=1},i:'✨',m:1.5},{id:'l',n:'Логистика',c:3500,e:'+2 прод',f:function(){g.mxP+=2},i:'📦',m:1.6},{id:'t',n:'Тренинг',c:2500,e:'+1 навык',f:function(){g.tb+=1},i:'📚',m:1.5},{id:'i',n:'Инвестиции',c:8000,e:'пассив',f:function(){g.pr+=0.05},i:'🏦',m:1.7}];
-var EV=[{t:'💰 Крупный клиент!',g:1,f:function(x){x.m+=x.dp*3;ae('Крупный клиент +'+F(x.dp*3),1)}},{t:'📉 Кризис',g:0,f:function(x){x.m=Math.max(0,x.m-x.dp);ae('Кризис -'+F(x.dp),0)}},{t:'⭐ Хайп',g:1,f:function(x){x.rp+=2;ae('Хайп! реп +2',1)}},{t:'🔧 Поломка',g:0,f:function(x){x.m=Math.max(0,x.m-2500);ae('Поломка -2500',0)}},{t:'🏛️ Господдержка',g:1,f:function(x){x.m+=5000;ae('Господдержка +5000',1)}},{t:'📋 Налоговая',g:0,f:function(x){x.m=Math.max(0,x.m-3000);ae('Налоговая -3000',0)}},{t:'🎤 Интервью',g:1,f:function(x){x.rp+=3;ae('Интервью! реп +3',1)}},{t:'💀 Кибератака',g:0,f:function(x){x.m=Math.max(0,x.m-3500);x.rp=Math.max(0,x.rp-1);ae('Кибератака -3500',0)}},{t:'🤝 Партнёрство',g:1,f:function(x){x.m+=x.dp*2;ae('Партнёрство +'+F(x.dp*2),1)}},{t:'⚡ Авария',g:0,f:function(x){x.m=Math.max(0,x.m-2000);ae('Авария -2000',0)}}];
-var ACH=[{id:'fp',n:'Первая прибыль',d:'Получить прибыль',c:function(){return g.tp>0},i:'💵'},{id:'e10',n:'Кадры',d:'10 сотрудников',c:function(){return g.th>=10},i:'👥'},{id:'mil',n:'Миллионер',d:'1,000,000',c:function(){return g.m>=1e6},i:'💰'},{id:'r50',n:'Известность',d:'Репутация 50',c:function(){return g.rp>=50},i:'⭐'},{id:'au',n:'Империя',d:'Все улучшения',c:function(){return U.every(function(u){return g.up[u.id]})},i:'👑'},{id:'p5',n:'Ассортимент',d:'5 продуктов',c:function(){return g.tpr>=5},i:'📦'},{id:'d100',n:'Стойкий',d:'100 дней',c:function(){return g.d>=100},i:'⏰'}];
+var B=[
+  {id:'taxi',i:'🚕',n:'Такси',c:500,d:120,eq:['Машины','Водители']},
+  {id:'fast',i:'🍔',n:'Фастфуд',c:2000,d:480,eq:['Кухня','Персонал']},
+  {id:'shop',i:'🛒',n:'Магазин',c:10000,d:2400,eq:['Товар','Продавцы']},
+  {id:'fact',i:'🏭',n:'Завод',c:50000,d:12000,eq:['Станки','Рабочие']},
+  {id:'gdev',i:'🎮',n:'GameDev',c:250000,d:60000,eq:['Компы','Разработчики']},
+  {id:'it',i:'💻',n:'IT-Компания',c:1000000,d:300000,eq:['Сервера','Программисты']},
+  {id:'bank',i:'🏦',n:'Банк',c:5000000,d:1500000,eq:['Софт','Сотрудники']},
+  {id:'kino',i:'🎬',n:'Киностудия',c:25000000,d:7500000,eq:['Камеры','Актёры']},
+  {id:'frans',i:'🏪',n:'Франшиза',c:125000000,d:37500000,eq:['Менеджеры','Точки']},
+  {id:'space',i:'🚀',n:'Космос',c:625000000,d:180000000,eq:['Технологии','Инженеры']}
+];
+var FUSION=[
+  {a:'taxi',b:'it',c:5000000,n:'📱 Uber 2.0',m:100},
+  {a:'fast',b:'frans',c:20000000,n:'🍔 МакДак',m:200},
+  {a:'shop',b:'fact',c:50000000,n:'🏭 Супермаркет',m:400},
+  {a:'gdev',b:'kino',c:200000000,n:'🎯 Медиа-Гигант',m:1000},
+  {a:'bank',b:'house',c:500000000,n:'🏰 ФинИмперия',m:2000},
+  {a:'space',b:'it',c:2000000000,n:'🛸 КосмоКорп',m:5000}
+];
+var HOUSE=[
+  {i:'🚗',n:'Гараж',c:1000,d:60},
+  {i:'🏡',n:'Дом',c:10000,d:600},
+  {i:'🏢',n:'Особняк',c:100000,d:6000},
+  {i:'🏰',n:'Замок',c:1000000,d:60000},
+  {i:'🏝️',n:'Остров',c:10000000,d:600000}
+];
+var FORBES=[
+  {n:'Начинающий',m:10000},{n:'Местный',m:100000},{n:'Городской',m:1000000},{n:'Региональный',m:10000000},{n:'Национальный',m:100000000},{n:'Топ-менеджер',m:500000000},{n:'Магнат',m:2500000000},{n:'Миллиардер',m:10000000000},{n:'Олигарх',m:50000000000},{n:'Император',m:500000000000}
+];
+var CLICK_UP=[
+  {m:1,c:0},{m:5,c:100},{m:10,c:500},{m:50,c:5000},{m:100,c:50000},{m:500,c:500000},{m:1000,c:5000000},{m:5000,c:50000000},{m:10000,c:500000000},{m:50000,c:5000000000},{m:100000,c:50000000000},{m:500000,c:500000000000}
+];
+function F(n){if(n>=1e12)return(n/1e12).toFixed(1)+'T';if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return Math.floor(n).toLocaleString('ru-RU')}
+var g,money=0,tab='click',tmr=null,st=1,clickLv=0,hLv=-1,mode=1,fused={};
+var bus={};for(var i=0;i<B.length;i++){var b=B[i];bus[b.id]={lv:0,eq:[0,0]}}
+function toast(t){var e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},1800)}
+function tick(){var inc=0;for(var i=0;i<B.length;i++){var b=B[i],s=bus[b.id];if(s.lv>0){var bd=b.d*(1+s.lv*0.2);bd*=1+(s.eq[0]>0?0.5:0)+(s.eq[1]>0?0.5:0);if(fused[b.id])bd*=fused[b.id];inc+=bd}}if(hLv>=0){var h=HOUSE[hLv];inc+=h.d}money+=inc/60;R()}
+function start(){if(tmr)return;tmr=setInterval(tick,1000)}
+function R(){Rr()}
+function Rr(){document.getElementById('app').innerHTML=H()}
+function H(){var h='<div class=hdr><span class=t>🏢 Бизнес Кликер</span><span class=m>'+F(money)+'<small>💰</small></span></div>';switch(tab){case'click':h+=HC();break;case'bus':h+=HB();break;case'house':h+=HH();break;case'fusion':h+=HF();break;case'forbes':h+=HFO();break;case'set':h+=HS();break}h+=BB();return h}
+function BB(){return'<div class=bbtn>'+[
+  ['click','🖱️','Кликер'],
+  ['bus','💼','Бизнес'],
+  ['house','🏠','Дом'],
+  ['fusion','🔬','Слияния'],
+  ['forbes','📊','Forbes'],
+  ['set','⚙️','Настройки']
+].map(function(t){return'<button class="'+(tab===t[0]?'on':'')+'" onclick="tab=\''+t[0]+'\';R()"><span class=bi>'+t[1]+'</span>'+t[2]+'</button>'}).join('')+'</div>'}
 
-var g=null,dp=0;
-var st={snd:1,thm:'dark'};
-var tab='ov';
-var ss=0;
-var stut=(localStorage.getItem('td')===null);
-var sp=1;
-var tmr=null;
-
-function F(n){return Math.floor(n).toLocaleString('ru-RU')}
-function R(a,b){return Math.random()*(b-a)+a}
-function RI(a,b){return Math.floor(R(a,b+1))}
-function P(a){return a[Math.floor(Math.random()*a.length)]}
-
-function ae(t,v){g.ev.unshift({t:t,g:v,id:Date.now()});if(g.ev.length>15)g.ev.pop()}
-function toast(m){var e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(function(){e.remove()},2000)}
-
-function IG(t){
-  g={ph:'play',bt:t,d:1,m:B[t].s,lo:0,rp:0,em:[],pr:[],up:{},mxE:3,mxP:3,ib:0,cr:0,qb:0,rd:0,tb:0,pr:0,dp:0,tp:0,th:0,tpr:0,ev:[],ach:[]};
-  tab='ov';
-  ae('🚀 '+B[t].n+' открыт!',1);toast('🚀 Запущено!');
-  startTimer();Rr()
-}
-
-function cA(){
-  for(var i=0;i<ACH.length;i++){var a=ACH[i];if(g.ach.indexOf(a.id)===-1&&a.c()){g.ach.push(a.id);toast('🏆 '+a.n+'!')}}
-}
-
-function cD(){
-  g.d++;var b=B[g.bt];var rv=0;
-  for(var i=0;i<g.em.length;i++){var e=g.em[i];var sa=(e.s.execution+e.s.creation+e.s.charisma+e.s.logic)/4;rv+=b.r*0.8+sa*10}
-  for(var i=0;i<g.pr.length;i++){var p=g.pr[i];rv+=p.q*40*p.l}
-  rv*=1+g.ib;rv*=1+g.rp*0.01;
-  var ex=0;
-  for(var i=0;i<g.em.length;i++){ex+=g.em[i].c*0.3}
-  if(g.lo>0)ex+=g.lo*0.02;
-  ex+=1000+g.em.length*200;ex*=1-g.cr;
-  g.dp=Math.floor(rv-ex);g.m+=g.dp;
-  if(g.dp>0)g.tp+=g.dp;
-  if(g.pr>0)g.m+=Math.floor(g.m*g.pr*0.05);
-  g.rp=Math.min(100,g.rp+g.rd);
-  if(Math.random()<0.08){var ev=P(EV);ev.f(g)}
-  for(var i=0;i<g.em.length;i++){var e=g.em[i];e.ex+=R(1,5);if(e.ex>=e.l*20){e.l++;e.ex=0;var s=P(S);e.s[s]=Math.min(10,e.s[s]+1);ae('⭐ '+e.n+' прокачал '+SN[s]+'!',1)}}
-  cA();
-  if(g.m>=1e6){g.ph='win';clearInterval(tmr);toast('🏆 ИМПЕРИЯ!')}
-  Rr()
-}
-
-function startTimer(){if(tmr)clearInterval(tmr);tmr=setInterval(function(){if(g.ph==='win'||g===null){clearInterval(tmr);return}if(!stut){dp+=0.015*sp;if(dp>=1){dp=0;cD()}}Rr()},40)}
-function setSp(s){sp=s;Rr()}
-
-function hire(){
-  if(g.m<B[g.bt].c){toast('❌ Нет денег');return}
-  if(g.em.length>=g.mxE){toast('❌ Мест нет');return}
-  var n=E[g.bt];var sk={};
-  for(var i=0;i<S.length;i++){sk[S[i]]=RI(1,5)+(g.tb||0)}
-  var e={id:Date.now()+RI(0,999),n:P(n)+' '+String.fromCharCode(65+RI(0,25)),s:sk,c:B[g.bt].c+RI(-20,40),l:1,ex:0};
-  g.m-=e.c;g.em.push(e);g.th++;
-  toast('🤝 '+e.n+' нанят!');Rr()
-}
-
-function fire(i){if(i<0||i>=g.em.length)return;toast(g.em[i].n+' уволен');g.em.splice(i,1);Rr()}
-
-function mkPr(){
-  if(g.pr.length>=g.mxP){toast('❌ Максимум');return}
-  var c=3000+g.pr.length*2000;
-  if(g.m<c){toast('❌ Нужно '+F(c));return}
-  g.m-=c;g.pr.push({id:Date.now(),n:P(['Базовый','Продвинутый','Премиум','Эконом'])+' #'+(g.pr.length+1),q:Math.min(1,0.5+R(0,0.3)+g.qb),l:1,uc:3000});
-  g.tpr++;toast('📦 Создан!');Rr()
-}
-
-function upPr(i){var p=g.pr[i];if(!p)return;if(g.m<p.uc){toast('❌ Нужно '+F(p.uc));return}g.m-=p.uc;p.l++;p.q=Math.min(1,p.q+0.12);p.uc=Math.floor(p.uc*1.6);toast('⬆ Улучшено!');Rr()}
-function gUC(u){return Math.floor(u.c*Math.pow(u.m,g.up[u.id]||0))}
-function buyU(id){var u=U.find(function(x){return x.id===id});if(!u)return;var c=gUC(u);if(g.m<c){toast('❌ Нужно '+F(c));return}g.m-=c;g.up[id]=(g.up[id]||0)+1;u.f();toast('🏢 '+u.n+'!');Rr()}
-function tL(){if(g.lo>0){toast('❌ Верни кредит');return}var a=Math.floor(g.m*2)+5000;g.m+=a;g.lo=Math.floor(a*1.2);toast('💰 Кредит '+F(a));Rr()}
-function pL(){if(g.lo<=0)return;if(g.m<g.lo){toast('❌ Не хватает');return}g.m-=g.lo;g.lo=0;toast('✅ Кредит погашен!');Rr()}
-function tTh(){st.thm=(st.thm==='dark'?'light':'dark');document.body.className='theme-'+st.thm;Rr()}
-
-function Rr(){
-  var a=document.getElementById('app');
-  if(g===null){
-    var cards='<div class=ss><div style="font-size:52px">🏢</div><h1>Бизнес Империя</h1><p>Начни с нуля, найми команду, разработай продукты и заработай 1,000,000💰</p><div class=gr id=sel>';
-    var ks=Object.keys(B);
-    for(var i=0;i<ks.length;i++){var k=ks[i];var v=B[k];cards+='<div class=gc><div class=ic>'+v.i+'</div><div class=nm>'+v.n+'</div><div class=ds>'+v.d+'<br>💰'+F(v.s)+'</div></div>'}
-    cards+='</div><div style="color:var(--dim);font-size:12px">Время идёт автоматически. Управляй скоростью!</div></div>';
-    a.innerHTML=cards;
-    var con=document.getElementById('sel');
-    con.onclick=function(e){
-      var gcs=con.children;
-      var idx=-1;
-      for(var i=0;i<gcs.length;i++){if(gcs[i]===e.target||gcs[i].contains(e.target)){idx=i;break}}
-      if(idx>=0)IG(ks[idx])
-    };
-    return
-  }
-  if(g.ph==='win'){
-    a.innerHTML='<div class=ss><div style="font-size:68px">🏆</div><h1>ИМПЕРИЯ ПОСТРОЕНА!</h1><p>1,000,000💰 заработано!</p><div class=c style="text-align:left;width:100%;max-width:340px"><div class=r><span class=l>Дней</span><span class=v>'+g.d+'</span></div><div class=r><span class=l>Заработано</span><span class=v>'+F(g.tp)+'</span></div><div class=r><span class=l>Сотрудников</span><span class=v>'+g.th+'</span></div><div class=r><span class=l>Достижений</span><span class=v>'+g.ach.length+'/'+ACH.length+'</span></div></div><button class="btn bp" onclick="g=null;clearInterval(tmr);Rr()">🔄 Сначала</button></div>';
-    return
-  }
-
-  var b=B[g.bt];
-  var ad=g.ach.length;
-  var dpp=Math.min(100,dp*100);
-  var dc=(g.dp>=0?'var(--green)':'var(--red)');
-  var sl=['½×','1×','2×','3×'];
-  var sv=[0.5,1,2,3];
-  var tbi=[{id:'ov',i:'📊',l:'Обзор'},{id:'em',i:'👥',l:'Команда'},{id:'pr',i:'📦',l:'Продукты'},{id:'up',i:'🏢',l:'Улучшения'},{id:'ach',i:'🏆',l:'Ачивки'}];
-
-  var h='<div class=hdr><span class=t>'+b.i+' '+b.n+'</span><span class=m>'+F(g.m)+'💰</span><div class=hdr-r>';
-  for(var i=0;i<sv.length;i++){h+='<button class="ibtn'+(sp===sv[i]?' on':'')+'" onclick="setSp('+sv[i]+')">'+sl[i]+'</button>'}
-  h+='<button class=ibtn onclick="ss=1;Rr()">⚙️</button></div></div>';
-  h+='<div class=tabs>';
-  for(var i=0;i<tbi.length;i++){var t=tbi[i];h+='<button class="tab'+(tab===t.id?' on':'')+'" onclick="tab=\''+t.id+'\';Rr()">'+t.i+' '+t.l+(t.id==='ach'&&ad>0?'<span class=b>'+ad+'</span>':'')+'</button>'}
+function HC(){
+  var cl=CLICK_UP[clickLv]||CLICK_UP[CLICK_UP.length-1];
+  var nx=CLICK_UP[clickLv+1];
+  var h='<div class=bigc><button onclick="ck()">🖱️</button><div class=ct>+'+F(cl.m)+'💰</div><div class=cs>за клик</div></div>';
+  h+='<div class=card><h3>⚡ Улучшить клик</h3><div class=pb><div class=pf style="width:'+(clickLv/CLICK_UP.length*100)+'%"></div></div>';
+  if(nx)h+='<div style=display:flex;justify-content:space-between;align-items:center><span>×'+nx.m+': <b>'+F(nx.c)+'💰</b></span><button class="btn btn-p btn-s" onclick="buyC()"'+(money<nx.c?' disabled':'')+'>Улучшить</button></div>';
+  else h+='<div style=color:var(--green);font-weight:600>✅ MAX</div>';
   h+='</div>';
-  if(g.lo>0)h+='<div class="ev ev-i" style="cursor:pointer" onclick="pL()">💳 Кредит: '+F(g.lo)+' | Погасить</div>';
-  h+='<div class=c><h3>⏳ День '+g.d+'</h3><div class=pb><div class=pf style="width:'+dpp+'%;background:var(--accent)"></div></div><div class=r><span class=l>💰 за день</span><span class=v style="color:'+dc+'">'+F(g.dp)+'</span></div></div>';
+  h+='<div class=card><h3>⏱ Доход в минуту</h3>';
+  var ti=0;for(var i=0;i<B.length;i++){var b=B[i],s=bus[b.id];if(s.lv>0){var bd=b.d*(1+s.lv*0.2);bd*=1+(s.eq[0]>0?0.5:0)+(s.eq[1]>0?0.5:0);if(fused[b.id])bd*=fused[b.id];ti+=bd}}
+  if(hLv>=0){var hh=HOUSE[hLv];ti+=hh.d}
+  h+='<div style=font-size:22px;font-weight:800;color:var(--green)>+'+F(ti)+'💰</div></div>';
+  return h
+}
+function ck(){money+=CLICK_UP[clickLv].m;R()}
+function buyC(){var nx=CLICK_UP[clickLv+1];if(!nx||money<nx.c)return;money-=nx.c;clickLv++;toast('⚡ Клик ×'+nx.m+'!');R()}
 
-  if(tab==='ov'){
-    h+='<div class=c><h3>📈 Показатели</h3><div class=r><span class=l>Команда</span><span class=v>'+g.em.length+'/'+g.mxE+'</span></div><div class=r><span class=l>Продукты</span><span class=v>'+g.pr.length+'/'+g.mxP+'</span></div><div class=r><span class=l>Репутация</span><span class=v>'+g.rp+'/100</span></div><div class=pb><div class=pf style="width:'+g.rp+'%;background:var(--gold)"></div></div><div class=r><span class=l>Заработано</span><span class=v>'+F(g.tp)+'</span></div><div class=r><span class=l>Цель</span><span class=v>'+F(g.m)+' / 1M</span></div><div class=pb><div class=pf style="width:'+Math.min(100,g.m/10000)+'%;background:var(--accent)"></div></div>';
-    if(g.ib>0||g.cr>0||g.qb>0||g.pr>0||g.rd>0){
-      h+='<div style="margin-top:4px;font-size:11px;color:var(--dim)">';
-      if(g.ib>0)h+='Дох+'+(g.ib*100)+'% ';
-      if(g.cr>0)h+='Расх-'+(g.cr*100)+'% ';
-      if(g.qb>0)h+='Кач+'+(g.qb*100)+'% ';
-      if(g.pr>0)h+='Пасс+'+(g.pr*100)+'% ';
-      if(g.rd>0)h+='Реп/д +'+g.rd;
-      h+='</div>'
-    }
-    h+='</div>';
-    if(g.em.length===0)h+='<div class=c><h3>💡 Первые шаги</h3><div style="font-size:13px;color:var(--dim);line-height:1.6">👉 Вкладка <b>Команда</b> — найми сотрудника<br>👉 Вкладка <b>Продукты</b> — создай продукт<br>👉 Покупай улучшения для роста!</div></div>'
-  }
+function HB(){
+  var h='';
+  for(var i=0;i<B.length;i++){var b=B[i],s=bus[b.id];
+    var bd=b.d*(1+s.lv*0.2);bd*=1+(s.eq[0]>0?0.5:0)+(s.eq[1]>0?0.5:0);
+    if(fused[b.id]){bd*=fused[b.id];h+='<div class=bcard style="border-left-color:var(--pink);background:linear-gradient(135deg,var(--card),rgba(253,121,168,0.05))"><div class=bi>'+b.i+'</div><div class=bd><div class=bn>'+b.n+'</div><div class=bdv>⬟ СЛИТО ×'+fused[b.id]+'</div><div class=bl>ур.'+s.lv+' | '+b.eq[0]+' +'+(s.eq[0]>0?'✅':'❌')+' | '+b.eq[1]+' +'+(s.eq[1]>0?'✅':'❌')+'</div></div><div class=br><div style=color:var(--pink);font-weight:700>+'+F(bd)+'/мин</div></div></div>';continue}
+    if(s.lv===0){h+='<div class=card style=display:flex;align-items:center;gap:10px><span style=font-size:28px>'+b.i+'</span><div style=flex:1><b>'+b.n+'</b><br><span class=fs>'+F(b.d)+'💰/мин</span></div><button class="btn btn-g" onclick="buyB('+i+')"'+(money<b.c?' disabled':'')+'>'+F(b.c)+'💰</button></div>';continue}
+    var upc=Math.floor(b.c*Math.pow(1.5,s.lv));
+    h+='<div class=bcard><div class=bi>'+b.i+'</div><div class=bd><div class=bn>'+b.n+' ур.'+s.lv+'</div><div class=bdv>+'+F(bd)+'💰/мин</div><div class=bl>';
+    for(var e=0;e<2;e++){var ec=Math.floor(b.c*(e+1)*2*(s.eq[e]+1));h+='<span style=cursor:pointer onclick="buyEq('+i+','+e+')" title="'+b.eq[e]+' ур.'+s.eq[e]+'">'+(s.eq[e]>0?'✅':'⬜')+' '+b.eq[e]+' <span class=fs>'+F(ec)+'</span></span>'+(e===0?' | ':'')}
+    h+='</div></div><div class=br><button class="btn btn-p btn-s" onclick="upB('+i+')"'+(money<upc?' disabled':'')+'>⬆ '+F(upc)+'</button></div></div>'}
+  return h
+}
+function buyB(i){var b=B[i];if(money<b.c)return;money-=b.c;bus[b.id].lv=1;start();toast('🚀 '+b.n+' куплен!');R()}
+function upB(i){var b=B[i],s=bus[b.id];if(s.lv<1)return;var c=Math.floor(b.c*Math.pow(1.5,s.lv));if(money<c)return;money-=c;s.lv++;toast('⬆ '+b.n+' ур.'+s.lv);R()}
+function buyEq(i,e){var b=B[i],s=bus[b.id];if(s.lv<1)return;var c=Math.floor(b.c*(e+1)*2*(s.eq[e]+1));if(money<c)return;money-=c;s.eq[e]++;toast('🔧 '+b.eq[e]+' +1');R()}
 
-  if(tab==='em'){
-    h+='<button class="btn bp" onclick="hire()"'+(g.m<B[g.bt].c||g.em.length>=g.mxE?' disabled':'')+'>👤 Нанять ('+F(B[g.bt].c)+')</button> <span style="font-size:12px;color:var(--dim)">'+g.em.length+'/'+g.mxE+'</span>';
-    h+='<div class=g2 style="margin-top:6px">';
-    if(g.em.length===0){h+='<div style="color:var(--dim);padding:8px;font-size:13px">Пока никого нет</div>'}else{
-      for(var i=0;i<g.em.length;i++){var e=g.em[i];
-        h+='<div class=ic><div style="display:flex;justify-content:space-between"><span class=nm>'+e.n+'</span><button class="btn br sm" onclick="fire('+i+')">✕</button></div><div class=st>⭐ Ур.'+e.l+' ('+e.ex+'/'+e.l*20+')</div>';
-        for(var j=0;j<S.length;j++){var s=S[j];h+='<div class=r style="padding:1px 0;font-size:10px"><span class=l>'+SN[s]+'</span><span class=v>'+'▮'.repeat(e.s[s])+'▯'.repeat(10-e.s[s])+'</span></div>'}
-        h+='<div class=st style="margin-top:3px">💰 '+F(Math.floor(e.c*0.3))+'/день</div></div>'
-      }
-    }
-    h+='</div>'
-  }
+function HH(){
+  var h='<div class=card><h3>🏠 Недвижимость</h3>';
+  if(hLv===-1)h+='<div style=font-size:12px;color:var(--dim);margin-bottom:6px>Купи свой первый дом!</div>';
+  else{var ch=HOUSE[hLv];h+='<div style=display:flex;align-items:center;gap:10px;margin-bottom:8px><span style=font-size:36px>'+ch.i+'</span><div><b>'+ch.n+'</b><br><span style=color:var(--green);font-weight:600>+'+F(ch.d)+'💰/мин</span></div></div>'}
+  var nx=HOUSE[hLv+1];
+  if(nx)h+='<div style=display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-top:1px solid rgba(108,92,231,0.06)><span>След: <b>'+nx.i+' '+nx.n+'</b> — '+F(nx.d)+'💰/мин</span><button class="btn btn-p btn-s" onclick="buyH()"'+(money<nx.c?' disabled':'')+'>'+F(nx.c)+'💰</button></div>';
+  else h+='<div style=color:var(--green);font-weight:600;padding:6px 0;border-top:1px solid rgba(108,92,231,0.06)>✅ Вся недвижимость твоя!</div>';
+  h+='</div>';return h
+}
+function buyH(){var nx=HOUSE[hLv+1];if(!nx||money<nx.c)return;money-=nx.c;hLv++;toast('🏠 '+nx.n+' куплен!');R()}
 
-  if(tab==='pr'){
-    h+='<button class="btn bp" onclick="mkPr()"'+(g.m<3000+g.pr.length*2000||g.pr.length>=g.mxP?' disabled':'')+'>📦 Создать ('+F(3000+g.pr.length*2000)+')</button> <span style="font-size:12px;color:var(--dim)">'+g.pr.length+'/'+g.mxP+'</span>';
-    h+='<div class=g2 style="margin-top:6px">';
-    if(g.pr.length===0){h+='<div style="color:var(--dim);padding:8px">Нет продуктов</div>'}else{
-      for(var i=0;i<g.pr.length;i++){var p=g.pr[i];
-        h+='<div class=ic><div class=nm>'+p.n+'</div><div class=st>Ур.'+p.l+' | '+(p.q*100).toFixed(0)+'%</div><div class=st style="color:var(--green)">+'+F(p.q*40*p.l)+'💰/д</div><button class="btn bg sm" style="margin-top:5px" onclick="upPr('+i+')"'+(g.m<p.uc?' disabled':'')+'>⬆ '+F(p.uc)+'</button></div>'
-      }
-    }
-    h+='</div>'
-  }
+function HF(){
+  var h='<div class=card><h3>🔬 Слияния</h3>';
+  var any=false;
+  for(var i=0;i<FUSION.length;i++){var f=FUSION[i];
+    var aS=f.a==='house'?hLv>=0:bus[f.a]&&bus[f.a].lv>=5;
+    var bS=bus[f.b]&&bus[f.b].lv>=5;
+    var done=fused[f.a]||fused[f.b]||(f.a!=='house'&&f.b!=='house'&&fused[f.a]&&fused[f.b]);
+    if(done){h+='<div style=padding:6px 0;border-bottom:1px solid rgba(108,92,231,0.06);display:flex;justify-content:space-between><span>'+f.n+'</span><span style=color:var(--green)>✅</span></div>';continue}
+    if(!aS||!bS){h+='<div style=padding:6px 0;border-bottom:1px solid rgba(108,92,231,0.06);color:var(--dim);font-size:12px>🔒 '+f.n+' (треб: '+(f.a==='house'?'🏠 Дом':'ур.5 '+(B.find(function(x){return x.id===f.a})||{}).n)+' + ур.5 '+(B.find(function(x){return x.id===f.b})||{}).n+')</div>';continue}
+    any=true;
+    h+='<div style=padding:8px 0;border-bottom:1px solid rgba(108,92,231,0.06);display:flex;justify-content:space-between;align-items:center><div><b>'+f.n+'</b><br><span class=fs>×'+f.m+' к доходу</span></div><button class="btn btn-p btn-s" onclick="doFusion('+i+')"'+(money<f.c?' disabled':'')+'>'+F(f.c)+'💰</button></div>'}
+  if(!any)h+='<div style=font-size:12px;color:var(--dim)>Достигни ур.5 бизнесов чтобы открыть слияния</div>';
+  h+='</div>';return h
+}
+function doFusion(i){var f=FUSION[i];if(money<f.c)return;money-=f.c;var mid=f.a==='house'?f.b:f.a;fused[mid]=f.m;toast('✨ '+f.n+' создана!');R()}
 
-  if(tab==='up'){
-    h+='<div class=g2>';
-    for(var i=0;i<U.length;i++){var u=U[i];var lv=g.up[u.id]||0;var c=gUC(u);
-      h+='<div class=ic'+(lv?' style="border-left:3px solid var(--green)"':'')+'><div class=nm>'+u.i+' '+u.n+'</div><div class=st>'+u.e+(lv?' (ур.'+lv+')':'')+'</div><button class="btn '+(lv?'bo':'bp')+' sm" style="margin-top:5px" onclick="buyU(\''+u.id+'\')"'+(g.m<c?' disabled':'')+'>'+(lv?'⬆ '+F(c):'🏪 '+F(c))+'</button></div>'
-    }
-    h+='</div>'
-  }
-
-  if(tab==='ach'){
-    h+='<div class=g2>';
-    for(var i=0;i<ACH.length;i++){var a=ACH[i];var dn=g.ach.indexOf(a.id)!==-1;
-      h+='<div class=ic'+(dn?' style="border-left:3px solid var(--gold)"':'')+'><div class=nm>'+(dn?'✅':a.i)+' '+a.n+'</div><div class=st style="color:'+(dn?'var(--gold)':'var(--dim)')+'">'+a.d+'</div></div>'
-    }
-    h+='</div>'
-  }
-
-  h+='<div style="margin-top:6px">';
-  for(var i=0;i<Math.min(4,g.ev.length);i++){var e=g.ev[i];h+='<div class="ev ev-'+(e.g?'g':'b')+'">'+(e.g?'✅':'❌')+' '+e.t+'</div>'}
-  h+='</div>';
-
-  if(ss)h+=SModal();
-  if(stut)h+=TModal();
-  a.innerHTML=h
+function HFO(){
+  var h='<div class=card><h3>📊 Forbes</h3><div class=fb>';
+  var rank=-1;
+  for(var i=FORBES.length-1;i>=0;i--){if(money>=FORBES[i].m){rank=i;break}}
+  for(var i=FORBES.length-1;i>=0;i--){var f=FORBES[i];
+    h+='<div class="fr'+(i===rank?' me':'')+'"><span class=rn>'+(i===FORBES.length-1?'🥇':'#'+(i+1))+'</span><span style=flex:1>'+f.n+'</span><span>'+F(f.m)+'💰</span></div>'}
+  h+='</div></div>';return h
 }
 
-function SModal(){
-  return '<div class=modal onclick="if(event.target===this){ss=0;Rr()}"><div class=mc><h2>⚙️ Настройки</h2><div class=sr><span>🌙 Тёмная тема</span><button class="tg '+(st.thm==='dark'?'on':'off')+'" onclick=tTh()></button></div><div class=sr><span>🔊 Звук</span><button class="tg '+(st.snd?'on':'off')+'" onclick="st.snd=!st.snd;Rr()"></button></div><div class=sr><span>📖 Обучение</span><button class="btn bo sm" onclick="stut=1;ss=0;localStorage.removeItem(\'td\');Rr()">Показать</button></div><div class=sr><span>🔄 Новая игра</span><button class="btn br sm" onclick="if(confirm(\'Начать заново?\')){clearInterval(tmr);g=null;ss=0;Rr()}">Начать</button></div><div style="margin-top:8px;text-align:center"><button class="btn bo" onclick="ss=0;Rr()">Закрыть</button></div></div></div>'
+function HS(){
+  return'<div class=card><h3>⚙️ Настройки</h3><div class=setr><span>⏱ Скорость</span><div class=hi><button class="'+(st===1?'on':'')+'" onclick="st=1;R()">×1</button><button class="'+(st===2?'on':'')+'" onclick="st=2;R()">×2</button><button class="'+(st===3?'on':'')+'" onclick="st=3;R()">×3</button></div></div><div class=setr><span>🔄 Новая игра</span><button class="btn btn-r btn-s" onclick="if(confirm(\'Начать заново?\')){resetGame()}">Сброс</button></div></div>'
 }
+function resetGame(){clearInterval(tmr);tmr=null;money=0;clickLv=0;hLv=-1;st=1;fused={};for(var i=0;i<B.length;i++){var b=B[i];bus[b.id]={lv:0,eq:[0,0]}}tab='click';R()}
 
-function TModal(){
-  var stp=[{i:'🏢',t:'Добро пожаловать!',d:'Бизнес Империя — симулятор предпринимателя. Цель: заработать 1,000,000💰.'},{i:'👥',t:'Команда',d:'Нанимай сотрудников во вкладке «Команда». Выше навыки — выше доход.'},{i:'📦',t:'Продукты',d:'Создавай продукты. Они приносят доход каждый день.'},{i:'🏢',t:'Улучшения',d:'Покупай улучшения: офис, маркетинг, автоматизацию.'},{i:'⏳',t:'Время',d:'Время идёт само. Кнопки ½× 1× 2× 3× управляют скоростью.'},{i:'🏆',t:'Цель',d:'Накопи 1,000,000💰 и построй империю. Удачи! 🚀'}];
-  var si=parseInt(localStorage.getItem('ts')||'0');
-  var s=stp[si];
-  if(!s){localStorage.removeItem('ts');stut=0;Rr();return''}
-  var r='<div class=to onclick="if(event.target===this){stut=0;localStorage.setItem(\'td\',1);Rr()}"><div class=tb><div style="font-size:38px;margin-bottom:4px">'+s.i+'</div><h2>'+s.t+'</h2><p>'+s.d+'</p><div class=st>';
-  for(var i=0;i<stp.length;i++){r+='<div class="dt '+(i===si?'on':'')+'"></div>'}
-  r+='</div><div style="display:flex;gap:7px;justify-content:center">';
-  if(si>0)r+='<button class="btn bo" onclick="localStorage.setItem(\'ts\','+(si-1)+');Rr()">←</button>';
-  r+='<button class="btn bp" onclick="localStorage.setItem(\'ts\','+(si+1)+');Rr()">'+(si<stp.length-1?'Далее →':'🚀 Готово!')+'</button>';
-  r+='<button class="btn bo" onclick="stut=0;localStorage.setItem(\'td\',1);Rr()">✕</button></div></div></div>';
-  return r
-}
-
-Rr();
+R();start();
 </script>
 </body>
 </html>
