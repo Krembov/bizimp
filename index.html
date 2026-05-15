@@ -122,7 +122,7 @@ function cD(){
   Rr()
 }
 
-function startTimer(){if(tmr)clearInterval(tmr);tmr=setInterval(function(){if(g.ph==='win'||g===null){clearInterval(tmr);return}dp+=0.015*sp;if(dp>=1){dp=0;cD()}Rr()},40)}
+function startTimer(){if(tmr)clearInterval(tmr);tmr=setInterval(function(){if(g.ph==='win'||g===null){clearInterval(tmr);return}if(!stut){dp+=0.015*sp;if(dp>=1){dp=0;cD()}}Rr()},40)}
 function setSp(s){sp=s;Rr()}
 
 function hire(){
