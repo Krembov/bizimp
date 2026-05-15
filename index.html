@@ -7,7 +7,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 :root{--bg:#e8e6f5;--card:#fff;--text:#2a2748;--dim:#8a879e;--primary:#6c5ce7;--pink:#fd79a8;--orange:#fdcb6e;--green:#00b894;--red:#e17055;--blue:#74b9ff;--shadow:0 4px 20px rgba(108,92,231,0.1);--r:16px}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',sans-serif;min-height:100vh;overflow:hidden;display:flex;flex-direction:column}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',sans-serif;overflow:hidden;display:flex;flex-direction:column}
 #app{flex:1;overflow-y:auto;padding:12px 14px 80px;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 0 8px}
 .hdr .t{font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -105,10 +106,12 @@ var CLICK_UP=[
   {m:1,c:0},{m:5,c:100},{m:10,c:500},{m:50,c:5000},{m:100,c:50000},{m:500,c:500000},{m:1000,c:5000000},{m:5000,c:50000000},{m:10000,c:500000000},{m:50000,c:5000000000},{m:100000,c:50000000000},{m:500000,c:500000000000}
 ];
 function F(n){if(n>=1e12)return(n/1e12).toFixed(1)+'T';if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return Math.floor(n).toLocaleString('ru-RU')}
-var g,money=0,tab='click',tmr=null,st=1,clickLv=0,hLv=-1,mode=1,fused={};
+var g,money=0,tab='click',tmr=null,st=1,clickLv=0,hLv=-1,mode=1,fused={},sv=0;
 var bus={};for(var i=0;i<B.length;i++){var b=B[i];bus[b.id]={lv:0,eq:[0,0]}}
+function save(){try{var d={money:money,clickLv:clickLv,hLv:hLv,st:st,fused:fused,bus:bus};localStorage.setItem('bizSave',JSON.stringify(d))}catch(e){}}
+function load(){try{var r=localStorage.getItem('bizSave');if(!r)return;var d=JSON.parse(r);money=d.money||0;clickLv=d.clickLv||0;hLv=d.hLv??-1;st=d.st||1;fused=d.fused||{};if(d.bus)for(var k in d.bus){if(bus[k]){bus[k].lv=d.bus[k].lv||0;bus[k].eq=d.bus[k].eq||[0,0]}}}catch(e){}}
 function toast(t){var e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},1800)}
-function tick(){var inc=0;for(var i=0;i<B.length;i++){var b=B[i],s=bus[b.id];if(s.lv>0){var bd=b.d*(1+s.lv*0.2);bd*=1+(s.eq[0]>0?0.5:0)+(s.eq[1]>0?0.5:0);if(fused[b.id])bd*=fused[b.id];inc+=bd}}if(hLv>=0){var hh=HOUSE[hLv];inc+=hh.d}var add=Math.round(inc/60);if(add>0&&tab==='click'){fly('+'+F(add)+'💰')}money+=add;R()}
+function tick(){var inc=0;for(var i=0;i<B.length;i++){var b=B[i],s=bus[b.id];if(s.lv>0){var bd=b.d*(1+s.lv*0.2);bd*=1+(s.eq[0]>0?0.5:0)+(s.eq[1]>0?0.5:0);if(fused[b.id])bd*=fused[b.id];inc+=bd}}if(hLv>=0){var hh=HOUSE[hLv];inc+=hh.d}var add=Math.round(inc/60);if(add>0&&tab==='click'){fly('+'+F(add)+'💰')}money+=add;sv++;if(sv%5===0)save();R()}
 function start(){if(tmr)return;t();}
 function t(){tmr=setTimeout(function(){tick();t()},1000/st)}
 function R(){Rr()}
@@ -142,7 +145,7 @@ function HC(){
 function ck(){var am=CLICK_UP[clickLv].m;money+=am;fly('+'+F(am)+'💰');sparks();R()}
 function fly(t){var e=document.createElement('div');e.className='fly';var b=document.querySelector('.bigc button');var x=window.innerWidth/2,y=60;if(b){var r=b.getBoundingClientRect();x=r.left+r.width/2;y=r.top-10}e.textContent=t;e.style.left=(x-60+Math.random()*40)+'px';e.style.top=(y-10+Math.random()*20)+'px';e.style.color=['#6c5ce7','#fd79a8','#00b894','#fdcb6e','#fdcb6e'][Math.floor(Math.random()*5)];document.body.appendChild(e);setTimeout(function(){e.remove()},1000)}
 function sparks(){var b=document.querySelector('.bigc button');if(!b)return;var r=b.getBoundingClientRect();var cx=r.left+r.width/2,cy=r.top+r.height/2;for(var i=0;i<6;i++){var e=document.createElement('div');e.className='spark';var a=Math.random()*6.28;var d=30+Math.random()*60;e.textContent=['✦','✧','⬩','💎','⭐','✨'][Math.floor(Math.random()*6)];e.style.left=(cx+Math.cos(a)*d-10)+'px';e.style.top=(cy+Math.sin(a)*d-10)+'px';e.style.fontSize=(12+Math.random()*14)+'px';e.style.color=['#6c5ce7','#a29bfe','#fd79a8','#fdcb6e','#fff'][Math.floor(Math.random()*5)];document.body.appendChild(e);setTimeout(function(){e.remove()},700)}}
-function buyC(){var nx=CLICK_UP[clickLv+1];if(!nx||money<nx.c)return;money-=nx.c;clickLv++;toast('⚡ Клик ×'+nx.m+'!');R()}
+function buyC(){var nx=CLICK_UP[clickLv+1];if(!nx||money<nx.c)return;money-=nx.c;clickLv++;save();toast('⚡ Клик ×'+nx.m+'!');R()}
 
 function HB(){
   var h='';
@@ -156,9 +159,9 @@ function HB(){
     h+='</div></div><div class=br><button class="btn btn-p" onclick="upB('+i+')"'+(money<upc?' disabled':'')+'>⬆ '+F(upc)+'💰</button></div></div>'}
   return h
 }
-function buyB(i){var b=B[i];if(money<b.c)return;money-=b.c;bus[b.id].lv=1;start();toast('🚀 '+b.n+' куплен!');R()}
-function upB(i){var b=B[i],s=bus[b.id];if(s.lv<1)return;var c=Math.floor(b.c*Math.pow(1.5,s.lv));if(money<c)return;money-=c;s.lv++;toast('⬆ '+b.n+' ур.'+s.lv);R()}
-function buyEq(i,e){var b=B[i],s=bus[b.id];if(s.lv<1)return;var c=Math.floor(b.c*(e+1)*2*(s.eq[e]+1));if(money<c)return;money-=c;s.eq[e]++;toast('🔧 '+b.eq[e]+' +1');R()}
+function buyB(i){var b=B[i];if(money<b.c)return;money-=b.c;bus[b.id].lv=1;start();save();toast('🚀 '+b.n+' куплен!');R()}
+function upB(i){var b=B[i],s=bus[b.id];if(s.lv<1)return;var c=Math.floor(b.c*Math.pow(1.5,s.lv));if(money<c)return;money-=c;s.lv++;save();toast('⬆ '+b.n+' ур.'+s.lv);R()}
+function buyEq(i,e){var b=B[i],s=bus[b.id];if(s.lv<1)return;var c=Math.floor(b.c*(e+1)*2*(s.eq[e]+1));if(money<c)return;money-=c;s.eq[e]++;save();toast('🔧 '+b.eq[e]+' +1');R()}
 
 function HH(){
   var h='<div class=card><h3>🏠 Недвижимость</h3>';
@@ -169,7 +172,7 @@ function HH(){
   else h+='<div style=color:var(--green);font-weight:600;padding:6px 0;border-top:1px solid rgba(108,92,231,0.06)>✅ Вся недвижимость твоя!</div>';
   h+='</div>';return h
 }
-function buyH(){var nx=HOUSE[hLv+1];if(!nx||money<nx.c)return;money-=nx.c;hLv++;toast('🏠 '+nx.n+' куплен!');R()}
+function buyH(){var nx=HOUSE[hLv+1];if(!nx||money<nx.c)return;money-=nx.c;hLv++;save();toast('🏠 '+nx.n+' куплен!');R()}
 
 function HF(){
   var h='<div class=card><h3>🔬 Слияния</h3>';
@@ -185,7 +188,7 @@ function HF(){
   if(!any)h+='<div style=font-size:14px;color:var(--dim);text-align:center;padding:12px 0>🔒 Достигни ур.5 у двух бизнесов, чтобы открыть слияния</div>';
   h+='</div>';return h
 }
-function doFusion(i){var f=FUSION[i];if(money<f.c)return;money-=f.c;var mid=f.a==='house'?f.b:f.a;fused[mid]=f.m;toast('✨ '+f.n+' создана!');R()}
+function doFusion(i){var f=FUSION[i];if(money<f.c)return;money-=f.c;var mid=f.a==='house'?f.b:f.a;fused[mid]=f.m;save();toast('✨ '+f.n+' создана!');R()}
 
 function HFO(){
   var h='<div class=card><h3>📊 Forbes</h3><div class=fb>';
@@ -199,9 +202,9 @@ function HFO(){
 function HS(){
   return'<div class=card><h3>⚙️ Настройки</h3><div class=setr><span style=font-size:15px>⏱ Скорость игры</span><div class=hi><button class="'+(st===1?'on':'')+'" onclick="st=1;R()">×1</button><button class="'+(st===2?'on':'')+'" onclick="st=2;R()">×2</button><button class="'+(st===3?'on':'')+'" onclick="st=3;R()">×3</button></div></div><div class=setr><span style=font-size:15px>🔄 Новая игра</span><button class="btn btn-r" onclick="if(confirm(\'Начать заново? Вся прогрессия будет потеряна!\')){resetGame()}" style=font-size:15px>🗑 Сбросить</button></div></div>'
 }
-function resetGame(){clearTimeout(tmr);tmr=null;money=0;clickLv=0;hLv=-1;st=1;fused={};for(var i=0;i<B.length;i++){var b=B[i];bus[b.id]={lv:0,eq:[0,0]}}tab='click';R()}
+function resetGame(){clearTimeout(tmr);tmr=null;money=0;clickLv=0;hLv=-1;st=1;fused={};for(var i=0;i<B.length;i++){var b=B[i];bus[b.id]={lv:0,eq:[0,0]}}tab='click';try{localStorage.removeItem('bizSave')}catch(e){}R()}
 
-R();start();
+load();R();start();
 </script>
 </body>
 </html>
