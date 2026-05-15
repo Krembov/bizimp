@@ -92,7 +92,7 @@ function ae(t,v){g.ev.unshift({t:t,g:v,id:Date.now()});if(g.ev.length>15)g.ev.po
 function toast(m){var e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(function(){e.remove()},2000)}
 
 function IG(t){
-  g={ph:'play',tp:t,d:1,m:B[t].s,lo:0,rp:0,em:[],pr:[],up:{},mxE:3,mxP:3,ib:0,cr:0,qb:0,rd:0,tb:0,pr:0,dp:0,tp:0,th:0,tpr:0,ev:[],ach:[]};
+  g={ph:'play',bt:t,d:1,m:B[t].s,lo:0,rp:0,em:[],pr:[],up:{},mxE:3,mxP:3,ib:0,cr:0,qb:0,rd:0,tb:0,pr:0,dp:0,tp:0,th:0,tpr:0,ev:[],ach:[]};
   tab='ov';
   ae('🚀 '+B[t].n+' открыт!',1);toast('🚀 Запущено!');
   startTimer();Rr()
@@ -103,7 +103,7 @@ function cA(){
 }
 
 function cD(){
-  g.d++;var b=B[g.tp];var rv=0;
+  g.d++;var b=B[g.bt];var rv=0;
   for(var i=0;i<g.em.length;i++){var e=g.em[i];var sa=(e.s.execution+e.s.creation+e.s.charisma+e.s.logic)/4;rv+=b.r*0.8+sa*10}
   for(var i=0;i<g.pr.length;i++){var p=g.pr[i];rv+=p.q*40*p.l}
   rv*=1+g.ib;rv*=1+g.rp*0.01;
@@ -126,11 +126,11 @@ function startTimer(){if(tmr)clearInterval(tmr);tmr=setInterval(function(){if(g.
 function setSp(s){sp=s;Rr()}
 
 function hire(){
-  if(g.m<B[g.tp].c){toast('❌ Нет денег');return}
+  if(g.m<B[g.bt].c){toast('❌ Нет денег');return}
   if(g.em.length>=g.mxE){toast('❌ Мест нет');return}
-  var n=E[g.tp];var sk={};
+  var n=E[g.bt];var sk={};
   for(var i=0;i<S.length;i++){sk[S[i]]=RI(1,5)+(g.tb||0)}
-  var e={id:Date.now()+RI(0,999),n:P(n)+' '+String.fromCharCode(65+RI(0,25)),s:sk,c:B[g.tp].c+RI(-20,40),l:1,ex:0};
+  var e={id:Date.now()+RI(0,999),n:P(n)+' '+String.fromCharCode(65+RI(0,25)),s:sk,c:B[g.bt].c+RI(-20,40),l:1,ex:0};
   g.m-=e.c;g.em.push(e);g.th++;
   toast('🤝 '+e.n+' нанят!');Rr()
 }
@@ -174,7 +174,7 @@ function Rr(){
     return
   }
 
-  var b=B[g.tp];
+  var b=B[g.bt];
   var ad=g.ach.length;
   var dpp=Math.min(100,dp*100);
   var dc=(g.dp>=0?'var(--green)':'var(--red)');
@@ -207,7 +207,7 @@ function Rr(){
   }
 
   if(tab==='em'){
-    h+='<button class="btn bp" onclick="hire()"'+(g.m<B[g.tp].c||g.em.length>=g.mxE?' disabled':'')+'>👤 Нанять ('+F(B[g.tp].c)+')</button> <span style="font-size:12px;color:var(--dim)">'+g.em.length+'/'+g.mxE+'</span>';
+    h+='<button class="btn bp" onclick="hire()"'+(g.m<B[g.bt].c||g.em.length>=g.mxE?' disabled':'')+'>👤 Нанять ('+F(B[g.bt].c)+')</button> <span style="font-size:12px;color:var(--dim)">'+g.em.length+'/'+g.mxE+'</span>';
     h+='<div class=g2 style="margin-top:6px">';
     if(g.em.length===0){h+='<div style="color:var(--dim);padding:8px;font-size:13px">Пока никого нет</div>'}else{
       for(var i=0;i<g.em.length;i++){var e=g.em[i];
