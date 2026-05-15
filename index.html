@@ -7,9 +7,9 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 :root{--bg:#e8e6f5;--card:#fff;--text:#2a2748;--dim:#8a879e;--primary:#6c5ce7;--pink:#fd79a8;--orange:#fdcb6e;--green:#00b894;--red:#e17055;--blue:#74b9ff;--shadow:0 4px 20px rgba(108,92,231,0.1);--r:16px}
-html,body{height:100%}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',sans-serif;overflow:hidden;display:flex;flex-direction:column}
-#app{flex:1;overflow-y:auto;padding:12px 14px 80px;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',sans-serif}
+#app{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;padding:12px 14px 80px;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 0 8px}
 .hdr .t{font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hdr .m{font-size:22px;font-weight:800;color:var(--text);background:rgba(108,92,231,0.06);padding:6px 14px;border-radius:30px}
@@ -200,7 +200,7 @@ function HFO(){
 }
 
 function HS(){
-  return'<div class=card><h3>⚙️ Настройки</h3><div class=setr><span style=font-size:15px>⏱ Скорость игры</span><div class=hi><button class="'+(st===1?'on':'')+'" onclick="st=1;R()">×1</button><button class="'+(st===2?'on':'')+'" onclick="st=2;R()">×2</button><button class="'+(st===3?'on':'')+'" onclick="st=3;R()">×3</button></div></div><div class=setr><span style=font-size:15px>🔄 Новая игра</span><button class="btn btn-r" onclick="if(confirm(\'Начать заново? Вся прогрессия будет потеряна!\')){resetGame()}" style=font-size:15px>🗑 Сбросить</button></div></div>'
+  return'<div class=card><h3>⚙️ Настройки</h3><div class=setr><span style=font-size:15px>⏱ Скорость игры</span><div class=hi><button class="'+(st===1?'on':'')+'" onclick="st=1;save();R()">×1</button><button class="'+(st===2?'on':'')+'" onclick="st=2;save();R()">×2</button><button class="'+(st===3?'on':'')+'" onclick="st=3;save();R()">×3</button></div></div><div class=setr><span style=font-size:15px>💾 Сохранение</span><button class="btn btn-p" onclick="save();toast(\'💾 Сохранено!\')" style=font-size:14px>💾 Сохранить</button></div><div class=setr><span style=font-size:15px>🔄 Новая игра</span><button class="btn btn-r" onclick="if(confirm(\'Начать заново? Вся прогрессия будет потеряна!\')){resetGame()}" style=font-size:15px>🗑 Сбросить</button></div></div>'
 }
 function resetGame(){clearTimeout(tmr);tmr=null;money=0;clickLv=0;hLv=-1;st=1;fused={};for(var i=0;i<B.length;i++){var b=B[i];bus[b.id]={lv:0,eq:[0,0]}}tab='click';try{localStorage.removeItem('bizSave')}catch(e){}R()}
 
