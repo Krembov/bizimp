@@ -115,7 +115,7 @@ function cD(){
   if(g.dp>0)g.tp+=g.dp;
   if(g.pr>0)g.m+=Math.floor(g.m*g.pr*0.05);
   g.rp=Math.min(100,g.rp+g.rd);
-  if(Math.random()<0.08){var ev=P(EV);ev.f(D)}
+  if(Math.random()<0.08){var ev=P(EV);ev.f(g)}
   for(var i=0;i<g.em.length;i++){var e=g.em[i];e.ex+=R(1,5);if(e.ex>=e.l*20){e.l++;e.ex=0;var s=P(S);e.s[s]=Math.min(10,e.s[s]+1);ae('⭐ '+e.n+' прокачал '+SN[s]+'!',1)}}
   cA();
   if(g.m>=1e6){g.ph='win';clearInterval(tmr);toast('🏆 ИМПЕРИЯ!')}
